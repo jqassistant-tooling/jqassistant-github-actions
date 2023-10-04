@@ -1,0 +1,64 @@
+---
+name: release
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        description: "The branch to checkout when cutting the release."
+        type: string
+        required: true
+      releaseVersion:
+        description: "Default version to use when preparing a release."
+        type: string
+        required: true
+      developmentVersion:
+        description: "Default version to use for new local working copy."
+        type: string
+        required: true
+    secrets:
+      ossrh_username:
+        required: true
+      ossrh_token:
+        required: true
+      ossrh_signing_key:
+        required: true
+      ossrh_signing_password:
+        required: true
+      sonar_token:
+        required: true
+
+jobs:
+  release:
+    name: Release on Sonatype OSS
+    if: github.repository_owner == 'jqassistant-plugin'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.branch }}
+
+      - name: Configure Git User
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: ${{ inputs.java_version }}
+          cache: 'maven'
+          server-id: sonatype-nexus-staging
+          server-username: OSSRH_USERNAME
+          server-password: OSSRH_PASSWORD
+          gpg-private-key: ${{ secrets.ossrh_signing_key }}
+          gpg-passphrase: OSSRH_SIGNING_PASSWORD
+
+      - name: Prepare and perform release
+        run: mvn release:prepare release:perform -ntp --batch-mode -DreleaseVersion=${{ inputs.releaseVersion }} -DdevelopmentVersion=${{ inputs.developmentVersion }}
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+          SONARCLOUD_LOGIN: ${{ secrets.sonar_token }}
