@@ -44,7 +44,7 @@ jobs:
         run: mvn --batch-mode --update-snapshots -P IT verify
 
       - name: publish-snapshots
-        if: inputs.publish_snapshots && github.repository_owner == 'jqassistant-plugin' && github.ref == 'main' && github.event_name != 'pull_request'
+        if: inputs.publish_snapshots && github.repository_owner == 'jqassistant-plugin' && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: mvn deploy --batch-mode -P release
         env:
           OSSRH_USERNAME: ${{ secrets.ossrh_username }}
