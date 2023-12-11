@@ -24,7 +24,7 @@ on:
     secrets:
       ossrh_username:
         required: true
-      ossrh_token:
+      ossrh_password:
         required: true
       ossrh_signing_key:
         required: true
