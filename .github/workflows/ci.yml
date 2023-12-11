@@ -52,4 +52,4 @@ jobs:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           OSSRH_SIGNING_PASSWORD: ${{ secrets.OSSRH_SIGNING_PASSWORD }}
-          SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
