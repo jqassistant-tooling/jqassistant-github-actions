@@ -17,7 +17,7 @@ on:
     secrets:
       ossrh_username:
         required: false
-      ossrh_token:
+      ossrh_password:
         required: false
       ossrh_signing_key:
         required: false
@@ -47,6 +47,6 @@ jobs:
         if: inputs.publish_snapshots && github.repository_owner == 'jqassistant-plugin' && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: mvn deploy --batch-mode -P release
         env:
-          OSSRH_USERNAME: ${{ secrets.ossrh_username }}
-          OSSRH_PASSWORD: ${{ secrets.ossrh_token }}
-          OSSRH_SIGNING_PASSWORD: ${{ secrets.ossrh_signing_password }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          OSSRH_SIGNING_PASSWORD: ${{ secrets.OSSRH_SIGNING_PASSWORD }}
