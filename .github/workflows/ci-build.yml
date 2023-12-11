@@ -1,5 +1,5 @@
 ---
-name: ci-build
+name: CI
 
 on:
   workflow_call:
@@ -41,7 +41,7 @@ jobs:
           gpg-passphrase: OSSRH_SIGNING_PASSWORD
 
       - name: build
-        run: mvn --batch-mode --update-snapshots -P IT verify
+        run: mvn --batch-mode --update-snapshots -P IT,sonar verify
 
       - name: publish-snapshots
         if: inputs.publish_snapshots && github.repository_owner == 'jqassistant-plugin' && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
