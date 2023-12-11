@@ -16,13 +16,15 @@ on:
         required: false
     secrets:
       ossrh_username:
-        required: false
+        required: true
       ossrh_password:
-        required: false
+        required: true
       ossrh_signing_key:
         required: false
       ossrh_signing_password:
         required: false
+      sonar_token:
+        required: true
 
 jobs:
   build:
@@ -50,3 +52,4 @@ jobs:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           OSSRH_SIGNING_PASSWORD: ${{ secrets.OSSRH_SIGNING_PASSWORD }}
+          SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
