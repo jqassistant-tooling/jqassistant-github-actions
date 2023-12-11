@@ -57,7 +57,7 @@ jobs:
           server-id: sonatype-nexus-staging
           server-username: OSSRH_USERNAME
           server-password: OSSRH_PASSWORD
-          gpg-private-key: ${{ secrets.ossrh_signing_key }}
+          gpg-private-key: ${{ secrets.OSSRH_SIGNING_KEY }}
           gpg-passphrase: OSSRH_SIGNING_PASSWORD
 
       - name: Prepare and perform release
@@ -66,4 +66,4 @@ jobs:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           OSSRH_SIGNING_PASSWORD: ${{ secrets.OSSRH_SIGNING_PASSWORD }}
-          SONARCLOUD_LOGIN: ${{ secrets.sonar_token }}
+          SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
