@@ -43,11 +43,11 @@ jobs:
           gpg-passphrase: OSSRH_SIGNING_PASSWORD
 
       - name: build
-        run: mvn --batch-mode --update-snapshots -X -P IT,sonar verify
+        run: mvn --batch-mode --update-snapshots -P IT verify
 
       - name: publish-snapshots
         if: inputs.publish_snapshots && github.repository_owner == 'jqassistant-plugin' && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        run: mvn deploy --batch-mode -P release -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: mvn deploy --batch-mode -P release,sonar
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
