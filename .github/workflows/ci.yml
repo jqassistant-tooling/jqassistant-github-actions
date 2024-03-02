@@ -9,7 +9,7 @@ on:
         type: string
         required: false
         default: 17
-      java_versions:
+      java_test_versions:
         description: Java versions to use for testing the project
         type: string
         required: false
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java_version: ${{ fromJson(inputs.java_versions) }}
+        java_version: ${{ fromJson(inputs.java_test_versions) }}
     steps:
       - uses: actions/checkout@v3
       - uses: ts-graphviz/setup-graphviz@v1
