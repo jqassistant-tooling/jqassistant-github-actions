@@ -33,6 +33,7 @@ on:
 
 jobs:
   build:
+    name: Build with java ${{ matrix.java_version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
