@@ -39,7 +39,7 @@ jobs:
       matrix:
         java_version: ${{ fromJson(inputs.java_test_versions) }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ts-graphviz/setup-graphviz@v1
       - uses: actions/setup-java@v3
         with:
@@ -54,7 +54,7 @@ jobs:
     needs: build
     if: inputs.publish_snapshots && github.repository_owner == 'jqassistant-plugin' && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ts-graphviz/setup-graphviz@v1
       - uses: actions/setup-java@v3
         with:
