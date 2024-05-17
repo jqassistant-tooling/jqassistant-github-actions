@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
-          repository: jqassistant-tooling/jqassistant-quartz-docs-template
+          repository: jqassistant-tooling/jqassistant-quartz-docs
           path: docs/quartz
       - name: Move quartz files to docs directory
         run: |
