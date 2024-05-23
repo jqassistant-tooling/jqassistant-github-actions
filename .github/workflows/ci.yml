@@ -46,6 +46,9 @@ jobs:
           distribution: temurin
           java-version: ${{ matrix.java_version }}
           cache: 'maven'
+      - uses: s4u/maven-settings-action@v3.0.0
+        with:
+          sonatypeSnapshots: true
       - name: test with java ${{ matrix.java_version }}
         run: mvn --batch-mode --update-snapshots -P IT verify
 
