@@ -72,6 +72,12 @@ jobs:
       - uses: s4u/maven-settings-action@v3.0.0
         with:
           sonatypeSnapshots: true
+          servers: |
+            [{
+              "id": "sonatype-nexus-snapshots",
+              "username": "${{ secrets.OSSRH_USERNAME }}",
+              "password": "${{ secrets.OSSRH_PASSWORD }}"
+            }]          
       - name: publish-snapshots
         run: mvn deploy --batch-mode -P sonar -DskipTests
         env:
