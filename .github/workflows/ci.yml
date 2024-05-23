@@ -17,7 +17,7 @@ on:
       publish_snapshots:
         description: Whether to attempt publishing snapshots. When false, the workflow will only run build.
         type: boolean
-        default: false
+        default: true
         required: false
     secrets:
       ossrh_username:
@@ -68,7 +68,7 @@ jobs:
           gpg-passphrase: OSSRH_SIGNING_PASSWORD
 
       - name: publish-snapshots
-        run: mvn deploy --batch-mode -P release,sonar -DskipTests
+        run: mvn deploy --batch-mode -P sonar -DskipTests
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
