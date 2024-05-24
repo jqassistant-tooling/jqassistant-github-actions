@@ -64,11 +64,6 @@ jobs:
           distribution: temurin
           java-version: ${{ inputs.java_version }}
           cache: 'maven'
-          server-id: sonatype-nexus-snapshots
-          server-username: OSSRH_USERNAME
-          server-password: OSSRH_PASSWORD
-          gpg-private-key: ${{ secrets.ossrh_signing_key }}
-          gpg-passphrase: OSSRH_SIGNING_PASSWORD
       - uses: s4u/maven-settings-action@v3.0.0
         with:
           sonatypeSnapshots: true
