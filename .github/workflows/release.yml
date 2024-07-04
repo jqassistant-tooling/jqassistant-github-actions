@@ -36,7 +36,7 @@ on:
 jobs:
   release:
     name: Release on Sonatype OSS
-    if: github.repository_owner == 'jqassistant-plugin'
+    if: contains(fromJSON('["buschmais", "jqassistant-plugin", "jqassistant-tooling"]'), github.repository_owner)
     runs-on: ubuntu-latest
 
     steps:
