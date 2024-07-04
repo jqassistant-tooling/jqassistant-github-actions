@@ -55,8 +55,7 @@ jobs:
   publish-snapshots:
     runs-on: ubuntu-latest
     needs: build
-#    if: inputs.publish_snapshots && github.repository_owner == 'jqassistant-plugin' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && github.event_name != 'pull_request'
-    if: contains('jqassistant-plugin'('["push", "pull_request"]'), github.event_name)
+    if: contains(fromJSON('["buschmais", "jqassistant-plugin", "jqassistant-tooling"]'), github.repository_owner) && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v3
       - uses: ts-graphviz/setup-graphviz@v1
