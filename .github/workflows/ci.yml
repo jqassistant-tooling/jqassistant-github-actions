@@ -50,7 +50,7 @@ jobs:
         with:
           sonatypeSnapshots: true
       - name: test with java ${{ matrix.java_version }}
-        run: mvn --batch-mode --update-snapshots -P IT verify
+        run: mvn --batch-mode --update-snapshots -P IT install
 
   publish-snapshots:
     runs-on: ubuntu-latest
