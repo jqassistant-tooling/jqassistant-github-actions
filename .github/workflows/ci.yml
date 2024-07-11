@@ -40,7 +40,7 @@ jobs:
         java_version: ${{ fromJson(inputs.java_test_versions) }}
     steps:
       - uses: actions/checkout@v3
-      - uses: ts-graphviz/setup-graphviz@v1
+      - uses: ts-graphviz/setup-graphviz@v2
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
@@ -58,7 +58,7 @@ jobs:
     if: contains(fromJSON('["buschmais", "jqassistant-plugin", "jqassistant-tooling", "jQAssistant"]'), github.repository_owner) && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v3
-      - uses: ts-graphviz/setup-graphviz@v1
+      - uses: ts-graphviz/setup-graphviz@v2
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
