@@ -15,7 +15,7 @@ on:
         required: false
         default: '[11, 17, 21]'
       java_sonar_version:
-        description: Java versions to use for running Sonar analyis
+        description: Java versions to use for running Sonar analysis
         type: string
         required: false
         default: '17'
@@ -58,7 +58,7 @@ jobs:
         run: mvn --batch-mode --update-snapshots -P IT install
       - name: sonar
         run: |
-          if [ ${{ matrix.java_version }} == ${{ java_sonar_version }} ]; then
+          if [ ${{ matrix.java_version }} == ${{ inputs.java_sonar_version }} ]; then
             mvn --batch-mode -P sonar sonar:sonar
           fi
 
