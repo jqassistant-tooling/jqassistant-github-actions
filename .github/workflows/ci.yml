@@ -61,6 +61,8 @@ jobs:
           if [ ${{ matrix.java_version }} == ${{ inputs.java_sonar_version }} ]; then
             mvn --batch-mode -P sonar sonar:sonar
           fi
+        env:
+          SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
 
   publish-snapshots:
     runs-on: ubuntu-latest
@@ -89,4 +91,3 @@ jobs:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           OSSRH_SIGNING_PASSWORD: ${{ secrets.OSSRH_SIGNING_PASSWORD }}
-          SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
