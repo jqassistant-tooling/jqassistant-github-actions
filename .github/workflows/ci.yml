@@ -54,9 +54,9 @@ jobs:
       - uses: s4u/maven-settings-action@v3.0.0
         with:
           sonatypeSnapshots: true
-      - name: test with java ${{ matrix.java_version }}
+      - name: Build and test with Java ${{ matrix.java_version }}
         run: mvn --batch-mode --update-snapshots -P IT install
-      - name: sonar
+      - name: Execute SonarCloud analysis
         run: |
           if [ ${{ matrix.java_version }} == ${{ inputs.java_sonar_version }} ]; then
             mvn --batch-mode -P sonar sonar:sonar
