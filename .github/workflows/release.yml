@@ -17,15 +17,16 @@ on:
         description: "Default version to use when preparing a release."
         type: string
         required: true
-      releaseAssets:
-        description: "Default version to use when preparing a release."
-        type: string
-        required: true
-        default: "[]"
       developmentVersion:
         description: "Default version to use for new local working copy."
         type: string
         required: true
+      dryRun:
+        description: 'Whether to perform a dry run'
+        required: true
+        default: 'false'
+        type: boolean
+
     secrets:
       ossrh_username:
         required: true
@@ -67,13 +68,13 @@ jobs:
           gpg-private-key: ${{ secrets.OSSRH_SIGNING_KEY }}
           gpg-passphrase: OSSRH_SIGNING_PASSWORD
 
-      - name: Prepare and perform release
+      - name: Prepare release
         run: |
           mvn release:prepare \
-            -DreleaseVersion=${{ inputs.releaseVersion }} \
-            -DdevelopmentVersion=${{ inputs.developmentVersion }} \
-            -DdryRun=${{ inputs.dryRun }} \
-            -Prelease
+             -DreleaseVersion=${{ inputs.releaseVersion }} \
+             -DdevelopmentVersion=${{ inputs.developmentVersion }} \
+             -DdryRun=${{ inputs.dryRun }} \
+             -Prelease
       - name: Perform release
         run: |
           mvn release:perform \
