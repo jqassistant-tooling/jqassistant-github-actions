@@ -53,7 +53,13 @@ jobs:
           java-version: '21'
 
       - name: Maven Dry Run
-        run: mvn --dry-run release:prepare
+        run: |
+         mvn release:prepare release:perform \
+         -ntp \
+         --batch-mode \
+         -DreleaseVersion=${{ inputs.releaseVersion }} \
+         -DdevelopmentVersion=${{ inputs.developmentVersion }} \
+         -DdryRun=${{ inputs.dryRun }}
 
   release:
     needs: dry-run
