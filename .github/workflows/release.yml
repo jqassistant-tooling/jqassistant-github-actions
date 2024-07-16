@@ -17,6 +17,11 @@ on:
         description: "Default version to use when preparing a release."
         type: string
         required: true
+      releaseAssets:
+        description: "Default version to use when preparing a release."
+        type: string
+        required: true
+        default: "[]"
       developmentVersion:
         description: "Default version to use for new local working copy."
         type: string
