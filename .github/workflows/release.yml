@@ -21,6 +21,11 @@ on:
         description: "Default version to use for new local working copy."
         type: string
         required: true
+      dryRun:
+        description: 'Whether to perform a dry run'
+        required: true
+        default: 'false'
+        type: boolean
     secrets:
       ossrh_username:
         required: true
@@ -34,38 +39,33 @@ on:
         required: true
 
 jobs:
-  release:
-    name: Release on Sonatype OSS
-    if: contains(fromJSON('["buschmais", "jqassistant-plugin", "jqassistant-tooling", "jQAssistant"]'), github.repository_owner)
+  dry-run:
+    if: ${{ github.event.inputs.dryRun }}
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
         with:
-          ref: ${{ inputs.branch }}
+          distribution: 'adopt'
+          java-version: '21'
 
-      - name: Configure Git User
-        run: |
-          git config user.email "actions@github.com"
-          git config user.name "GitHub Actions"
+      - name: Maven Dry Run
+        run: mvn --dry-run release:prepare
 
-      - uses: ts-graphviz/setup-graphviz@v1
-
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: ${{ inputs.java_version }}
-          cache: 'maven'
-          server-id: sonatype-nexus-staging
-          server-username: OSSRH_USERNAME
-          server-password: OSSRH_PASSWORD
-          gpg-private-key: ${{ secrets.OSSRH_SIGNING_KEY }}
-          gpg-passphrase: OSSRH_SIGNING_PASSWORD
-
-      - name: Prepare and perform release
-        run: mvn release:prepare release:perform -ntp --batch-mode -DreleaseVersion=${{ inputs.releaseVersion }} -DdevelopmentVersion=${{ inputs.developmentVersion }}
-        env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          OSSRH_SIGNING_PASSWORD: ${{ secrets.OSSRH_SIGNING_PASSWORD }}
-          SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
+  release:
+    needs: dry-run
+    if: ${{ success() && github.event.inputs.dryRun == 'false' }}
+    uses: jqassistant-tooling/jqassistant-github-actions/.github/workflows/release.yml@main
+    with:
+      branch: ${{ github.event.inputs.branch }}
+      releaseVersion: ${{ github.event.inputs.releaseVersion }}
+      developmentVersion: ${{ github.event.inputs.developmentVersion }}
+    secrets:
+      ossrh_username: ${{ secrets.OSSRH_USERNAME }}
+      ossrh_password: ${{ secrets.OSSRH_PASSWORD }}
+      ossrh_signing_key: ${{ secrets.OSSRH_SIGNING_KEY }}
+      ossrh_signing_password: ${{ secrets.OSSRH_SIGNING_PASSWORD }}
+      sonar_token: ${{ secrets.SONAR_TOKEN }}
