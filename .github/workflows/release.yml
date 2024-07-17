@@ -54,9 +54,9 @@ jobs:
           git config user.name "GitHub Actions"
 
       - name: Set up Java
-        uses: actions/setup-java@v2
+        uses: ts-graphviz/setup-graphviz@v1
         with:
-          distribution: 'adopt'
+          distribution: temurin
           java-version: '21'
 
       - name: Prepare and perform release
