@@ -21,6 +21,11 @@ on:
         description: "Default version to use for new local working copy."
         type: string
         required: true
+      dryRun:
+        description: 'Whether to perform a dry run'
+        required: true
+        default: false
+        type: boolean
     secrets:
       ossrh_username:
         required: true
@@ -63,7 +68,7 @@ jobs:
           gpg-passphrase: OSSRH_SIGNING_PASSWORD
 
       - name: Prepare and perform release
-        run: mvn release:prepare release:perform -ntp --batch-mode -DreleaseVersion=${{ inputs.releaseVersion }} -DdevelopmentVersion=${{ inputs.developmentVersion }}
+        run: mvn release:prepare release:perform -ntp --batch-mode -DreleaseVersion=${{ inputs.releaseVersion }} -DdevelopmentVersion=${{ inputs.developmentVersion }} -DdryRun=${{ inputs.dryRun }}
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
