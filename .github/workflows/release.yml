@@ -72,7 +72,7 @@ jobs:
           gpg-passphrase: OSSRH_SIGNING_PASSWORD
 
       - name: Prepare and perform release
-        run: mvn release:prepare release:perform -ntp --batch-mode -DreleaseVersion=${{ inputs.releaseVersion }} -DdevelopmentVersion=${{ inputs.developmentVersion }} -DdryRun=${{ inputs.dryRun }} -Dneo4j=${{ inputs.neo4j }}
+        run: mvn release:prepare release:perform -ntp --batch-mode -DreleaseVersion=${{ inputs.releaseVersion }} -DdevelopmentVersion=${{ inputs.developmentVersion }} -DdryRun=${{ inputs.dryRun }}
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
