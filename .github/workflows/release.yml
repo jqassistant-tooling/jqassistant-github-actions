@@ -75,7 +75,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           # name: neo4j.zip
-          path: ${{ inputs.neo4j }}
+          path:${{inputs.neo4j}}
           # content_type: application/zip
 
       - name: Prepare and perform release
