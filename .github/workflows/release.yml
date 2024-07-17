@@ -22,10 +22,10 @@ on:
         type: string
         required: true
       dryRun:
-        description: 'Whether to perform a dry run'
+        description: "Perform a dry run"
         required: true
-        default: false
-        type: boolean
+        default: 'false'
+        type: string
     secrets:
       ossrh_username:
         required: true
