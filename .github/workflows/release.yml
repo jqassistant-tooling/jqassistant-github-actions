@@ -59,16 +59,10 @@ jobs:
           distribution: 'adopt'
           java-version: '21'
 
-      - name: Maven Dry Run
-        run: |
-         mvn release:prepare release:perform \
-         -ntp \
-         --batch-mode \
-         -DreleaseVersion=${{ inputs.releaseVersion }} \
-         -DdevelopmentVersion=${{ inputs.developmentVersion }} \
-         -DdryRun=${{ inputs.dryRun }}
-    env:
-        OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-        OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-        OSSRH_SIGNING_PASSWORD: ${{ secrets.OSSRH_SIGNING_PASSWORD }}
-        SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKE }}
+      - name: Prepare and perform release
+        run: mvn release:prepare release:perform -ntp --batch-mode -DreleaseVersion=${{ inputs.releaseVersion }} -DdevelopmentVersion=${{ inputs.developmentVersion }} -DdryRun=${{ inputs.dryRun }}
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          OSSRH_SIGNING_PASSWORD: ${{ secrets.OSSRH_SIGNING_PASSWORD }}
+          SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
