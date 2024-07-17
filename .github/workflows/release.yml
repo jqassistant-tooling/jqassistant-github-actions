@@ -26,6 +26,12 @@ on:
         required: true
         default: 'false'
         type: string
+      neo4j:
+        description: "Neo4j v4 version to use"
+        type: string
+        required: true
+        default: 'target/checkout/cli/neo4jv4/target/*-distribution.zip'
+
     secrets:
       ossrh_username:
         required: true
@@ -66,6 +72,13 @@ jobs:
           server-password: OSSRH_PASSWORD
           gpg-private-key: ${{ secrets.OSSRH_SIGNING_KEY }}
           gpg-passphrase: OSSRH_SIGNING_PASSWORD
+
+      - name: Upload Release Asset Neo4j
+        uses: actions/upload-artifact@v3
+        with:
+          # name: neo4j.zip
+          path: ${{ inputs.neo4j }}
+          # content_type: application/zip
 
       - name: Prepare and perform release
         run: mvn release:prepare release:perform -ntp --batch-mode -DreleaseVersion=${{ inputs.releaseVersion }} -DdevelopmentVersion=${{ inputs.developmentVersion }} -DdryRun=${{ inputs.dryRun }}
