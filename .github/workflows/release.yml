@@ -22,11 +22,10 @@ on:
         type: string
         required: true
       dryRun:
-        description: 'Whether to perform a dry run'
+        description: "Perform a dry run"
         required: true
         default: 'false'
-        type: boolean
-
+        type: string
     secrets:
       ossrh_username:
         required: true
@@ -68,18 +67,8 @@ jobs:
           gpg-private-key: ${{ secrets.OSSRH_SIGNING_KEY }}
           gpg-passphrase: OSSRH_SIGNING_PASSWORD
 
-      - name: Prepare release
-        run: |
-          mvn release:prepare \
-             -DreleaseVersion=${{ inputs.releaseVersion }} \
-             -DdevelopmentVersion=${{ inputs.developmentVersion }} \
-             -DdryRun=${{ inputs.dryRun }} \
-             -Prelease
-      - name: Perform release
-        run: |
-          mvn release:perform \
-            -DdryRun=${{ inputs.dryRun }} \
-            -Prelease
+      - name: Prepare and perform release
+        run: mvn release:prepare release:perform -ntp --batch-mode -DreleaseVersion=${{ inputs.releaseVersion }} -DdevelopmentVersion=${{ inputs.developmentVersion }} -DdryRun=${{ inputs.dryRun }}
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
