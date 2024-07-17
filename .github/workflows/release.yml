@@ -21,15 +21,15 @@ on:
         description: "Default version to use for new local working copy."
         type: string
         required: true
+      neo4j:
+        description: "Neo4j v4 version to use"
+        type: string
+        required: true
       dryRun:
         description: "Perform a dry run"
         required: true
         default: 'false'
         type: string
-      neo4j:
-        description: "Neo4j v4 version to use"
-        type: string
-        required: true
     secrets:
       ossrh_username:
         required: true
