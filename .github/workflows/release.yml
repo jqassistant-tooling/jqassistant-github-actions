@@ -71,13 +71,6 @@ jobs:
           gpg-private-key: ${{ secrets.OSSRH_SIGNING_KEY }}
           gpg-passphrase: OSSRH_SIGNING_PASSWORD
 
-      - name: Upload Release Asset Neo4j
-        uses: actions/upload-artifact@v3
-        with:
-          # name: neo4j.zip
-          path:${{inputs.neo4j}}
-          # content_type: application/zip
-
       - name: Prepare and perform release
         run: mvn release:prepare release:perform -ntp --batch-mode -DreleaseVersion=${{ inputs.releaseVersion }} -DdevelopmentVersion=${{ inputs.developmentVersion }} -DdryRun=${{ inputs.dryRun }} -Dneo4j=${{ inputs.neo4j }}
         env:
@@ -85,3 +78,10 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           OSSRH_SIGNING_PASSWORD: ${{ secrets.OSSRH_SIGNING_PASSWORD }}
           SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Upload Release Asset Neo4j
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            cli/neo4jv4/target/*-distribution.zip
+            target/checkout/cli/neo4jv5/target/*-distribution.zip
