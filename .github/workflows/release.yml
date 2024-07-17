@@ -30,8 +30,6 @@ on:
         description: "Neo4j v4 version to use"
         type: string
         required: true
-        default: 'target/checkout/cli/neo4jv4/target/*-distribution.zip'
-
     secrets:
       ossrh_username:
         required: true
