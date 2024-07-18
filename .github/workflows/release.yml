@@ -84,4 +84,5 @@ jobs:
         with:
            name: artifacts
            path: |
-            - ${{inputs.neo4j}}
+            - cli/neo4jv4/target/*-distribution.zip
+            - cli/neo4jv5/target/*-distribution.zip
