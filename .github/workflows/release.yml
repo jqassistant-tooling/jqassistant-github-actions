@@ -79,10 +79,9 @@ jobs:
           OSSRH_SIGNING_PASSWORD: ${{ secrets.OSSRH_SIGNING_PASSWORD }}
           SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Upload Release Asset Neo4j
-        uses: actions/upload-artifact@v3
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
         with:
            name: artifacts
-           path: cli/neo4jv4/target/*-distribution.zip
-           names:  artifacts 2
-           paths: cli/neo4jv5/target/*-distribution.zip
+           path: |
+            - ${{inputs.neo4j}}
