@@ -29,7 +29,7 @@ on:
       artifacts:
         description: "Path expression for artifacts to upload."
         type: string
-        required: false
+        required: true
     secrets:
       ossrh_username:
         required: true
@@ -83,7 +83,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-           if-no-files-found: warn
            name: artifacts
            path: |
              ${{inputs.artifacts}}
+           if-no-files-found: warn
