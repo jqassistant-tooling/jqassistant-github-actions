@@ -22,7 +22,7 @@ on:
         type: string
         required: true
       neo4j:
-        description: "Neo4j v4 version to use"
+        description: "Neo4j version to release"
         type: string
         required: true
       dryRun:
@@ -84,4 +84,4 @@ jobs:
         with:
           path: |
             cli/neo4jv4/target/*-distribution.zip
-            target/checkout/cli/neo4jv5/target/*-distribution.zip
+            cli/neo4jv5/target/*-distribution.zip
