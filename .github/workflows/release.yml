@@ -21,15 +21,15 @@ on:
         description: "Default version to use for new local working copy."
         type: string
         required: true
-      neo4j:
-        description: "Neo4j version to release"
-        type: string
-        required: true
       dryRun:
         description: "Perform a dry run"
         required: true
         default: 'false'
         type: string
+      artifacts:
+        description: "Path expression for artifacts to upload."
+        type: string
+        required: false
     secrets:
       ossrh_username:
         required: true
@@ -84,4 +84,7 @@ jobs:
         with:
            name: artifacts
            path: |
-             ${{inputs.neo4j}}
+             ${{inputs.artifacts}}
+
+      - name: Display structure of downloaded files
+        run: ls -R
