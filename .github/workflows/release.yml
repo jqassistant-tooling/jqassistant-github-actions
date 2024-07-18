@@ -82,11 +82,7 @@ jobs:
       - name: Upload Release Asset Neo4j
         uses: actions/upload-artifact@v3
         with:
-          name: neo4j-release-asset v4
-          path: cli/neo4jv4/target/*-distribution.zip
-
-      - name: Upload Release Asset Neo4j
-        uses: actions/upload-artifact@v3
-        with:
-          name: neo4j-release-asset v5
-          path: cli/neo4jv5/target/*-distribution.zip
+           name: artifacts
+           path: cli/neo4jv4/target/*-distribution.zip
+           names:  artifacts 2
+           paths: cli/neo4jv5/target/*-distribution.zip
