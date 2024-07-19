@@ -26,8 +26,8 @@ on:
         required: true
         default: 'false'
         type: string
-      artifacts:
-        description: "Path expression for artifacts to upload."
+      assets:
+        description: "Path expression for Assets to upload."
         type: string
         required: false
         default: ""
@@ -80,12 +80,12 @@ jobs:
           OSSRH_SIGNING_PASSWORD: ${{ secrets.OSSRH_SIGNING_PASSWORD }}
           SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Create Artifacts Release
-        if: ${{ inputs.artifacts!= '' }}
+      - name: Create Release Assets
+        if: ${{ inputs.assets != '' }}
         uses: softprops/action-gh-release@v2
         with:
           name: ${{ inputs.releaseVersion }}
           draft: true
-          files: ${{ inputs.artifacts }}
+          files: ${{ inputs.assets }}
           token: ${{ secrets.GITHUB_TOKEN }}
           fail_on_unmatched_files: true
