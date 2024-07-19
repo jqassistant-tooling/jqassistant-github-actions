@@ -80,7 +80,7 @@ jobs:
           SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Upload Artifacts
-        if: ${{ inputs.artifacts }} != null
+        if: ${{ inputs.artifacts }} == null
         uses: actions/upload-artifact@v4
         with:
            name: artifacts
