@@ -88,4 +88,4 @@ jobs:
           draft: true
           files: ${{ inputs.artifacts }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          if-no-files-found: error
+          fail_on_unmatched_files: true
