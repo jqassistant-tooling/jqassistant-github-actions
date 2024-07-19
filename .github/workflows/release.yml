@@ -9,10 +9,6 @@ on:
         type: string
         required: false
         default: 17
-      branch:
-        description: "The branch to checkout when cutting the release."
-        type: string
-        required: true
       releaseVersion:
         description: "Default version to use when preparing a release."
         type: string
@@ -50,9 +46,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+
       - uses: actions/checkout@v3
         with:
-          ref: ${{ inputs.branch }}
+          ref: ${{ steps.extract_branch.outputs.branch }}
 
       - name: Configure Git User
         run: |
