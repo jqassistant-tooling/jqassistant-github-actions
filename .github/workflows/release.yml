@@ -86,5 +86,4 @@ jobs:
            name: artifacts
            path: |
              ${{inputs.artifacts}}
-      - name: Display structure of downloaded files
-        run: ls -R
+           compression-level: 0
