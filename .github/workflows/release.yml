@@ -86,4 +86,3 @@ jobs:
            name: artifacts
            path: |
              ${{inputs.artifacts}}
-        run: ls -R
