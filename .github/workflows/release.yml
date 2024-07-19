@@ -30,6 +30,7 @@ on:
         description: "Path expression for artifacts to upload."
         type: string
         required: true
+        default: ""
     secrets:
       ossrh_username:
         required: true
