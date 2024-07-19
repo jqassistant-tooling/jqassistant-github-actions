@@ -86,4 +86,5 @@ jobs:
            name: artifacts
            path: |
              ${{inputs.artifacts}}
-           if-no-files-found: warn
+      - name: Display structure of downloaded files
+        run: ls -R
