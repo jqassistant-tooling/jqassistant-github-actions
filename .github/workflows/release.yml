@@ -86,4 +86,4 @@ jobs:
            name: artifacts
            path: |
              ${{inputs.artifacts}}
-           compression-level: 0
+        run: ls -R
