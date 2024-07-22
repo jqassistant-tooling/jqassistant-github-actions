@@ -27,6 +27,11 @@ on:
         type: string
         required: false
         default: ""
+      pages:
+        description: "Path expression for Pages to upload."
+        type: string
+        required: false
+        default: ""
     secrets:
       ossrh_username:
         required: true
@@ -38,6 +43,9 @@ on:
         required: true
       sonar_token:
         required: true
+
+permissions:
+  contents: write
 
 jobs:
   release:
@@ -90,3 +98,12 @@ jobs:
           files: ${{ inputs.assets }}
           token: ${{ secrets.GITHUB_TOKEN }}
           fail_on_unmatched_files: true
+
+      - name: Deploy Page artifact
+        id: deployment
+        if: ${{ needs.check-directory.outputs.directory_exists == 'true'}}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ inputs.pages }}
+          cname: ${{ env.GITHUB_PAGES_URL }}
