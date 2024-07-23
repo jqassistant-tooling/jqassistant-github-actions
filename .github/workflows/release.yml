@@ -100,10 +100,8 @@ jobs:
           fail_on_unmatched_files: true
 
       - name: Deploy Page artifact
-        id: deployment
         if: ${{ needs.check-directory.outputs.directory_exists == 'true'}}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ inputs.pages }}
-          cname: ${{ env.GITHUB_PAGES_URL }}
+          publish_dir: ${{ github.event.inputs.pages }}
