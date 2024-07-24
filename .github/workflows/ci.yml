@@ -5,7 +5,7 @@ on:
   workflow_call:
     inputs:
       java_version:
-        description: Java version to use for publishing artifacts
+        description: Java version to use for running Sonar and publishing docs & artifacts
         type: string
         required: false
         default: 17
@@ -14,18 +14,13 @@ on:
         type: string
         required: false
         default: '[11, 17, 21]'
-      java_sonar_version:
-        description: Java versions to use for running Sonar analysis
-        type: string
-        required: false
-        default: '17'
       publish_snapshots:
         description: Whether to attempt publishing snapshots. When false, the workflow will only run build.
         type: boolean
         default: true
         required: false
       pages:
-        description: Path expression for Pages to upload.
+        description: Path expression for GitHub pages to upload.
         type: string
         required: false
     secrets:
@@ -65,7 +60,7 @@ jobs:
         run: mvn --batch-mode --update-snapshots -P IT install
 
       - name: Deploy GitHub Pages to snapshot
-        if: ${{ inputs.pages != '' }}
+        if: ${{ inputs.pages != '' }} && ${{ matrix.java_version }} == ${{ inputs.java_version }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -75,7 +70,7 @@ jobs:
 
       - name: Execute SonarCloud analysis
         run: |
-          if [ ${{ matrix.java_version }} == ${{ inputs.java_sonar_version }} ]; then
+          if [ ${{ matrix.java_version }} == ${{ inputs.java_version }} ]; then
             mvn --batch-mode -P sonar sonar:sonar
           fi
         env:
