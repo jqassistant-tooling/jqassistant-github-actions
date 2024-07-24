@@ -105,11 +105,11 @@ jobs:
           fail_on_unmatched_files: true
 
       - name: Verify path for GitHub pages
-        if: ${{ github.event.inputs.pages != '' }}
+        if: ${{ inputs.pages != '' }}
         run: ls ${{ github.event.inputs.pages }}
 
       - name: Deploy GitHub Pages
-        if: ${{ github.event.inputs.pages != '' }}
+        if: ${{ inputs.pages != '' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -118,7 +118,7 @@ jobs:
           keep_files: true
 
       - name: Deploy GitHub Pages to current
-        if: ${{ github.event.inputs.pages != '' && github.event.inputs.deployCurrentDoc == 'true' }}
+        if: ${{ inputs.pages != '' && inputs.deployCurrentDoc == 'true' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
