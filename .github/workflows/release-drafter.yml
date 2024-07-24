@@ -3,14 +3,6 @@ name: Release Drafter
 
 on:
   workflow_call:
-    inputs:
-      _extends:
-        description: "Path expression for the release drafter configuration file."
-        type: string
-        required: true
-    secrets:
-      gh_token:
-        required: true
   push:
     branches:
       - master
@@ -31,7 +23,5 @@ jobs:
     steps:
       - name: release-drafter
         uses: release-drafter/release-drafter@v6
-        with:
-          _extends: ${{ inputs._extends }}
         env:
-          GITHUB_TOKEN: ${{ secrets.gh_token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
