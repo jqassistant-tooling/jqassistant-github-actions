@@ -24,6 +24,10 @@ on:
         type: boolean
         default: true
         required: false
+      pages:
+        description: Path expression for Pages to upload.
+        type: string
+        required: false
     secrets:
       ossrh_username:
         required: true
@@ -64,7 +68,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./manual/target/generated-docs/
+          publish_dir: ${{ inputs.pages }}
           destination_dir: ./snapshot
           keep_files: true
 
