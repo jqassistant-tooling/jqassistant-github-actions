@@ -24,6 +24,6 @@ jobs:
       - name: release-drafter
         uses: release-drafter/release-drafter@v6
         with:
-          config-file: .github/release-drafter.yml
+          config-file: .jqassistant-tooling/jqassistant-github-actions/.github/release-drafter.yml@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
