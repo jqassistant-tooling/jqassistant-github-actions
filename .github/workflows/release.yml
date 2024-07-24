@@ -36,7 +36,7 @@ on:
         description: "Deploy the current documentation"
         type: string
         required: false
-        default: 'true'
+        default: 'false'
     secrets:
       ossrh_username:
         required: true
