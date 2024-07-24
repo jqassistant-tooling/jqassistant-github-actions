@@ -3,11 +3,6 @@ name: Release Drafter
 
 on:
   workflow_call:
-    inputs:
-      config-name:
-        description: configuration name from repository.
-        type: string
-        required: true
   push:
     branches:
       - master
@@ -29,6 +24,6 @@ jobs:
       - name: release-drafter
         uses: release-drafter/release-drafter@v6
         with:
-          config-name: ${{ inputs.config-name }}
+          config-name: release-drafter.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
