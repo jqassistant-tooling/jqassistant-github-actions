@@ -3,6 +3,14 @@ name: Release Drafter
 
 on:
   workflow_call:
+    inputs:
+      _extends:
+        description: "Path expression for the release drafter configuration file."
+        type: string
+        required: true
+    secrets:
+      gh_token:
+        required: true
   push:
     branches:
       - master
@@ -24,6 +32,6 @@ jobs:
       - name: release-drafter
         uses: release-drafter/release-drafter@v6
         with:
-          _extends: jqassistant-tooling/jqassistant-github-actions/.github/workflows/release-drafter.yml@main
+          _extends: ${{ inputs._extends }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.gh_token }}
