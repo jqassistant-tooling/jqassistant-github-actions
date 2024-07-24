@@ -32,6 +32,11 @@ on:
         type: string
         required: false
         default: ""
+      deployCurrentDoc:
+        description: "Deploy the current documentation"
+        type: string
+        required: false
+        default: 'true'
     secrets:
       ossrh_username:
         required: true
@@ -99,9 +104,24 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fail_on_unmatched_files: true
 
-      - name: Deploy Page artifact
-        if: ${{ needs.check-directory.outputs.directory_exists == 'true'}}
+      - name: Verify path for GitHub pages
+        if: ${{ github.event.inputs.pages != '' }}
+        run: ls ${{ github.event.inputs.pages }}
+
+      - name: Deploy GitHub Pages
+        if: ${{ github.event.inputs.pages != '' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ inputs.pages }}
+          publish_dir: ${{ github.event.inputs.pages }}
+          destination_dir: ./${{ github.event.inputs.releaseVersion }}
+          keep_files: true
+
+      - name: Deploy GitHub Pages to current
+        if: ${{ github.event.inputs.pages != '' && github.event.inputs.deployCurrentDoc == 'true' }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ github.event.inputs.pages }}
+          destination_dir: ./current
+          keep_files: true

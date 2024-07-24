@@ -36,6 +36,9 @@ on:
       sonar_token:
         required: true
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build with java ${{ matrix.java_version }}
@@ -56,6 +59,15 @@ jobs:
           sonatypeSnapshots: true
       - name: Build and test with Java ${{ matrix.java_version }}
         run: mvn --batch-mode --update-snapshots -P IT install
+
+      - name: Deploy GitHub Pages to snapshot
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./manual/target/generated-docs/
+          destination_dir: ./snapshot
+          keep_files: true
+
       - name: Execute SonarCloud analysis
         run: |
           if [ ${{ matrix.java_version }} == ${{ inputs.java_sonar_version }} ]; then
