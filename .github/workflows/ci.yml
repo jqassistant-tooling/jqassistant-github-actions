@@ -59,6 +59,14 @@ jobs:
       - name: Build and test with Java ${{ matrix.java_version }}
         run: mvn --batch-mode --update-snapshots -P IT install
 
+      - name: Execute SonarCloud analysis
+        run: |
+          if [ ${{ matrix.java_version }} == ${{ inputs.java_version }} ]; then
+            mvn --batch-mode -P sonar sonar:sonar
+          fi
+        env:
+          SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
+
       - name: Deploy GitHub Pages to snapshot
         if: ${{ inputs.pages != '' }} && ${{ matrix.java_version }} == ${{ inputs.java_version }}
         uses: peaceiris/actions-gh-pages@v3
@@ -67,14 +75,6 @@ jobs:
           publish_dir: ${{ inputs.pages }}
           destination_dir: ./snapshot
           keep_files: true
-
-      - name: Execute SonarCloud analysis
-        run: |
-          if [ ${{ matrix.java_version }} == ${{ inputs.java_version }} ]; then
-            mvn --batch-mode -P sonar sonar:sonar
-          fi
-        env:
-          SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
 
   publish-snapshots:
     runs-on: ubuntu-latest
