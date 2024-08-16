@@ -68,7 +68,7 @@ jobs:
           SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Deploy GitHub Pages to snapshot
-        if: ${{ inputs.pages != '' }} && ${{ matrix.java_version }} == ${{ inputs.java_version }}
+        if: ${{ inputs.pages != '' && matrix.java_version == inputs.java_version }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
