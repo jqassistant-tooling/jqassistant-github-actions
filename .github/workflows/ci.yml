@@ -61,7 +61,7 @@ jobs:
 
       - name: Execute SonarCloud analysis
         run: |
-          if [ ${{ matrix.java_version }} == ${{ inputs.java_version }} & "${{ github.actor }}" != "dependabot[bot]" ]; then
+          if [ ${{ matrix.java_version == inputs.java_version  && github.actor != 'dependabot[bot]' }} ]; then
             mvn --batch-mode -P sonar sonar:sonar
           fi
         env:
