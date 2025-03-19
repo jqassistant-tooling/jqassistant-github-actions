@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: https://github.com/sdkman/sdkman-release-action/
+          repository: sdkman/sdkman-release-action
           path: sdkman-release-action
       - uses: ./sdkman-release-action
         with:

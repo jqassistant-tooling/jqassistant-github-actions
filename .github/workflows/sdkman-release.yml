@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: https://github.com/sdkman/sdkman-default-action/
+          repository: sdkman/sdkman-default-action
           path: sdkman-default-action
       - uses: ./sdkman-default-action
         with:
