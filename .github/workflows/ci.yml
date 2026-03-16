@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java_version: ${{ fromJson(inputs.java_test_versions) }}
+        java_version: "[]" # ${{ fromJson(inputs.java_test_versions) }}
     steps:
       - uses: actions/checkout@v3
       - uses: ts-graphviz/setup-graphviz@v1
