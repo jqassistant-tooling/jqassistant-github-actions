@@ -110,7 +110,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: "./arc42/target/generated-docs/"
           destination_dir: ./arc42/sadsaddfdf
-          exclude_assets: '.github, arc42/**, bom/**, cli/**, core/**, distribution-specification/**, jqassistant/**, manual/**, maven/**, plantuml/**, plugin/**, src/**, .editorconfig, .gitignore, .jqassistant.yml, LICENSE, diag-plantuml-md5-dabd04f74c54b5c9ec00f90dbc0391cd.png, lombok.config, pom.xml, readme.adoc'
           keep_files: true
 
       - name: Deploy GitHub Pages to report
@@ -119,6 +118,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: "./target/jqassistant/"
           destination_dir: "./report"
-          exclude_assets: '.github, arc42/**, bom/**, cli/**, core/**, distribution-specification/**, jqassistant/**, manual/**, maven/**, plugin/**, report/juint/**, store/data/**, .editorconfig, .gitignore, .jqassistant.yml, LICENSE, jqassistant-report.xml, lombok.config, pom.xml, readme.adoc'
+          exclude_assets: '.github, store/**'
           keep_files: true
 
