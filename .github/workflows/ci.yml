@@ -115,5 +115,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: "./target/jqassistant/"
-          exclude_assets: 'store/**'
+          exclude_assets: "store/**"
           destination_dir: "./report/"
