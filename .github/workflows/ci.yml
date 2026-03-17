@@ -102,5 +102,18 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ${{ inputs.pages }}
           destination_dir: ./snapshot
-          keep_files: true
 
+      - name: Deploy GitHub Pages to arc42
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: "./arc42/target/generated-docs/"
+          destination_dir: "./arc42/"
+
+      - name: Deploy GitHub Pages to report
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: "./target/jqassistant/"
+          exclude_assets: "store/**"
+          destination_dir: "./report/"
