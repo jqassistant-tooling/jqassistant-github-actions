@@ -23,7 +23,7 @@ on:
         description: Path expression for GitHub pages to upload.
         type: string
         required: false
-      sonar_prject_key:
+      sonar_project_key:
         type: string
       sonar_host_url:
         type: string
