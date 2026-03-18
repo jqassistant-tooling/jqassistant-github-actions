@@ -29,7 +29,7 @@ on:
       sonar_host_url:
         type: string
         required: false
-        description: "http://localhost:9000"
+        default: "http://localhost:9000"
     secrets:
       ossrh_username:
         required: true
