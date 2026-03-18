@@ -101,7 +101,7 @@ jobs:
           fi
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECT_KEY: ${{inputs.SONAR_PROJECT_KEY}}
+          SONAR_PROJECTKEY: ${{inputs.SONAR_PROJECTKEY}}
           SONAR_HOST_URL: ${{inputs.SONAR_HOST_URL}}
           SONAR_ORGANISATION: ${{github.repository_owner}}
 
