@@ -23,7 +23,7 @@ on:
         description: Path expression for GitHub pages to upload.
         type: string
         required: false
-      sonar_prjectkey:
+      sonar_prject_key:
         type: string
       sonar_host_url:
         type: string
@@ -98,7 +98,7 @@ jobs:
           fi
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECTKEY: ${{inputs.SONAR_PROJECTKEY}}
+          SONAR_PROJECT_KEY: ${{inputs.SONAR_PROJECT_KEY}}
           SONAR_HOST_URL: ${{inputs.SONAR_HOST_URL}}
 
       - name: Deploy GitHub Pages to snapshot
