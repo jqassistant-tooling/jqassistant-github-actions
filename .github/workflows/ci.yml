@@ -23,6 +23,10 @@ on:
         description: Path expression for GitHub pages to upload.
         type: string
         required: false
+      sonar_prjectkey:
+        type: string
+      sonar_host_url:
+        type: string
     secrets:
       ossrh_username:
         required: true
@@ -93,7 +97,9 @@ jobs:
             mvn --batch-mode -P sonar sonar:sonar
           fi
         env:
-          SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECTKEY: ${{inputs.SONAR_PROJECTKEY}}
+          SONAR_HOST_URL: ${{inputs.SONAR_HOST_URL}}
 
       - name: Deploy GitHub Pages to snapshot
         if: ${{ inputs.pages != '' }}
