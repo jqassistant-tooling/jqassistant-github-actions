@@ -97,13 +97,10 @@ jobs:
       - name: Execute SonarCloud analysis
         run: |
           if [ ${{ github.actor != 'dependabot[bot]' }} = "true" ]; then
-            mvn --batch-mode -P sonar sonar:sonar
+            mvn --batch-mode -P sonar sonar:sonar -Dsonar.host.url=${{inputs.sonar_host_url}} -Dsonar.projectKey=${{inputs.sonar_project_key}} -Dsonar.organisation=${{github.repository_owner}}
           fi
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECTKEY: ${{inputs.SONAR_PROJECTKEY}}
-          SONAR_HOST_URL: ${{inputs.SONAR_HOST_URL}}
-          SONAR_ORGANISATION: ${{github.repository_owner}}
 
       - name: Deploy GitHub Pages to snapshot
         if: ${{ inputs.pages != '' }}
