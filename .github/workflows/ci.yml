@@ -23,6 +23,20 @@ on:
         description: Path expression for GitHub pages to upload.
         type: string
         required: false
+      sonar_project_key:
+        description: The project key to be passed to Sonar
+        type: string
+        required: false
+      sonar_host_url:
+        description: The host URL of the Sonar server (optional, defaults to https://sonarcloud.io)
+        type: string
+        required: false
+        default: 'https://sonarcloud.io'
+      sonar_organization:
+        description: The organization to be passed to SonarCloud
+        type: string
+        required: true
+        default: ${{github.repository_owner}}
     secrets:
       ossrh_username:
         required: true
@@ -89,11 +103,11 @@ jobs:
 
       - name: Execute SonarCloud analysis
         run: |
-          if [ ${{ github.actor != 'dependabot[bot]' }} = "true" ]; then
-            mvn --batch-mode -P sonar sonar:sonar
+          if [[ ${{ github.actor != 'dependabot[bot]' }} = "true" && '${{inputs.sonar_project_key }}' != '' ]]; then
+            mvn --batch-mode sonar:sonar -Dsonar.host.url=${{inputs.sonar_host_url}} -Dsonar.projectKey=${{inputs.sonar_project_key}} -Dsonar.organization=${{inputs.sonar_organization}}
           fi
         env:
-          SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.sonar_token }}
 
       - name: Deploy GitHub Pages to snapshot
         if: ${{ inputs.pages != '' }}
