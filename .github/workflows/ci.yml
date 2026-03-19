@@ -26,7 +26,7 @@ on:
       sonar_project_key:
         description: Identification of sonar-project for publishing
         type: string
-        required: true
+        required: false
       sonar_host_url:
         description: url for where to publish sonar results
         type: string
@@ -103,7 +103,7 @@ jobs:
 
       - name: Execute SonarCloud analysis
         run: |
-          if [ ${{ github.actor != 'dependabot[bot]' }} = "true"]; then
+          if [ ${{ github.actor != 'dependabot[bot]' }} = "true" && ${{inputs.sonar_project_key}} != '']; then
             mvn --batch-mode sonar:sonar -Dsonar.host.url=${{inputs.sonar_host_url}} -Dsonar.projectKey=${{inputs.sonar_project_key}} -Dsonar.organization=${{inputs.sonar_organization}}
           fi
         env:
