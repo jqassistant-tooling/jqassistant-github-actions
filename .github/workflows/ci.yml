@@ -103,7 +103,7 @@ jobs:
 
       - name: Execute SonarCloud analysis
         run: |
-          if [ ${{ github.actor != 'dependabot[bot]' }} = "true" && ${{inputs.sonar_project_key }} != '']; then
+          if [ ${{ github.actor != 'dependabot[bot]' }} = "true" && ${{inputs.sonar_project_key }} != '' ]; then
             mvn --batch-mode sonar:sonar -Dsonar.host.url=${{inputs.sonar_host_url}} -Dsonar.projectKey=${{inputs.sonar_project_key}} -Dsonar.organization=${{inputs.sonar_organization}}
           fi
         env:
