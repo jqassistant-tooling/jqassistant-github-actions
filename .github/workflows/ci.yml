@@ -24,16 +24,16 @@ on:
         type: string
         required: false
       sonar_project_key:
-        description: Identification of sonar-project for publishing
+        description: The project key to be passed to Sonar
         type: string
         required: false
       sonar_host_url:
-        description: url for where to publish sonar results
+        description: The host URL of the Sonar server (optional, defaults to https://sonarcloud.io)
         type: string
         required: false
         default: 'https://sonarcloud.io'
       sonar_organization:
-        description: organization for publishing sonar results
+        description: The organization to be passed to SonarCloud
         type: string
         required: true
         default: ${{github.repository_owner}}
