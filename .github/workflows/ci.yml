@@ -33,9 +33,9 @@ on:
         required: false
         default: 'https://sonarcloud.io'
       sonar_organization:
-        description: The organization to be passed to SonarCloud
+        description: The organization to be passed to SonarCloud (optional, defaults to github organization)
         type: string
-        required: true
+        required: false
         default: ${{github.repository_owner}}
     secrets:
       ossrh_username:
