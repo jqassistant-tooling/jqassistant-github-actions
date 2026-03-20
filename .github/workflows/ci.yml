@@ -48,6 +48,10 @@ on:
         required: false
       sonar_token:
         required: true
+      confluence_username:
+        required: false
+      confluence_password:
+        required: false
 
 permissions:
   contents: write
@@ -93,7 +97,11 @@ jobs:
               "id": "sonatype-nexus-snapshots",
               "username": "${{ secrets.OSSRH_USERNAME }}",
               "password": "${{ secrets.OSSRH_PASSWORD }}"
-            }]          
+            },{
+              "id": "confluence",
+              "username": "${{ secrets.CONFLUENCE_USERNAME }}",
+              "password": "${{ secrets.CONFLUENCE_PASSWORD }}"
+            }]
       - name: publish-snapshots
         run: mvn deploy --batch-mode -DskipTests
         env:
