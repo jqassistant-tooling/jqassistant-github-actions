@@ -49,9 +49,9 @@ on:
       sonar_token:
         required: true
       confluence_username:
-        required: false
+        required: true
       confluence_password:
-        required: false
+        required: true
 
 permissions:
   contents: write
