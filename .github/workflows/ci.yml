@@ -28,10 +28,10 @@ on:
         type: string
         required: false
       sonar_host_url:
-        description: The host URL of the Sonar server (optional, defaults to https://sonarcloud.io)
+        description: The host URL of the Sonar server (optional, defaults to https://sonar-dev.jqassistant.org/sonar/)
         type: string
         required: false
-        default: 'https://sonarcloud.io'
+        default: 'https://sonar-dev.jqassistant.org/sonar/'
       sonar_organization:
         description: The organization to be passed to SonarCloud (optional, defaults to github organization)
         type: string
@@ -65,7 +65,6 @@ jobs:
         java_version: ${{ fromJson(inputs.java_test_versions) }}
     steps:
       - uses: actions/checkout@v3
-      - uses: ts-graphviz/setup-graphviz@v1
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -83,7 +82,6 @@ jobs:
     if: contains(fromJSON('["buschmais", "jqassistant-plugin", "jqassistant-tooling", "jQAssistant"]'), github.repository_owner) && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v3
-      - uses: ts-graphviz/setup-graphviz@v1
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
