@@ -76,8 +76,8 @@ jobs:
           servers: |
             [{
               "id": "confluence",
-              "username": "",
-              "password": ""
+              "username": "${{ secrets.confluence_username }}",
+              "password": "${{ secrets.confluence_password }}"
             }]
 #      - name: Build and test with Java ${{ matrix.java_version }}
 #        run: mvn --batch-mode --update-snapshots -P IT install
