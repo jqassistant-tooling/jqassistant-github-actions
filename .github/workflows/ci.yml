@@ -103,8 +103,8 @@ jobs:
               "password": "${{ secrets.OSSRH_PASSWORD }}"
             },{
               "id": "confluence",
-              "username": "${{ secrets.confluence_username }}",
-              "password": "${{ secrets.confluence_password }}"
+              "username": "${{ secrets.CONFLUENCE_USERNAME }}",
+              "password": "${{ secrets.CONFLUENCE_PASSWORD }}"
             }]
       - name: publish-snapshots
         run: mvn deploy --batch-mode -DskipTests -Dconfluence.convertOnly=false
