@@ -79,8 +79,8 @@ jobs:
               "username": "${{ secrets.confluence_username }}",
               "password": "${{ secrets.confluence_password }}"
             }]
-#      - name: Build and test with Java ${{ matrix.java_version }}
-#        run: mvn --batch-mode --update-snapshots -P IT install
+      - name: Build and test with Java ${{ matrix.java_version }}
+        run: mvn --batch-mode --update-snapshots -P IT install
 
   publish-snapshots:
     runs-on: ubuntu-latest
@@ -107,14 +107,11 @@ jobs:
               "password": "${{ secrets.CONFLUENCE_PASSWORD }}"
             }]
       - name: publish-snapshots
-        run: mvn install --batch-mode -DskipTests -Dconfluence.convertOnly=false
+        run: mvn deploy --batch-mode -DskipTests -Dconfluence.convertOnly=false
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           OSSRH_SIGNING_PASSWORD: ${{ secrets.OSSRH_SIGNING_PASSWORD }}
-          CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
-          CONFLUENCE_PASSWORD: ${{ secrets.CONFLUENCE_PASSWORD }}
-
 
       - name: Execute SonarCloud analysis
         run: |
