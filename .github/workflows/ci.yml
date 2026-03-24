@@ -101,7 +101,7 @@ jobs:
               "password": "${{ secrets.CONFLUENCE_PASSWORD }}"
             }]
       - name: publish-snapshots
-        run: mvn deploy --batch-mode -DskipTests
+        run: mvn deploy --batch-mode -DskipTests -Dconfluence.convertOnly=false
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
