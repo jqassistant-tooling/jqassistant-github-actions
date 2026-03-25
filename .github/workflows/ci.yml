@@ -48,10 +48,10 @@ on:
         required: false
       sonar_token:
         required: true
-      confluence_username:
-        required: true
-      confluence_password:
-        required: true
+#      confluence_username:
+#        required: true
+#      confluence_password:
+#        required: true
 
 permissions:
   contents: write
@@ -76,11 +76,13 @@ jobs:
           servers: |
             [{
               "id": "confluence",
-              "username": "${{ secrets.confluence_username }}",
-              "password": "${{ secrets.confluence_password }}"
+              "username": "${{ env.confluence_username }}",
+              "password": "${{ env.confluence_password }}"
             }]
       - name: Build and test with Java ${{ matrix.java_version }}
         run: mvn --batch-mode --update-snapshots -P IT install
+        env:
+          CONFLUENCE_USERNAME: ${{ env.CONFLUENCE_USERNAME }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -103,8 +105,8 @@ jobs:
               "password": "${{ secrets.OSSRH_PASSWORD }}"
             },{
               "id": "confluence",
-              "username": "${{ secrets.CONFLUENCE_USERNAME }}",
-              "password": "${{ secrets.CONFLUENCE_PASSWORD }}"
+              "username": "${{ env.CONFLUENCE_USERNAME }}",
+              "password": "${{ env.CONFLUENCE_PASSWORD }}"
             }]
       - name: publish-snapshots
         run: mvn deploy --batch-mode -DskipTests -Dconfluence.convertOnly=false
