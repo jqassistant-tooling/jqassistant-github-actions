@@ -48,10 +48,10 @@ on:
         required: false
       sonar_token:
         required: true
-#      confluence_username:
-#        required: true
-#      confluence_password:
-#        required: true
+      confluence_username:
+        required: false
+      confluence_password:
+        required: false
 
 permissions:
   contents: write
@@ -73,16 +73,17 @@ jobs:
       - uses: s4u/maven-settings-action@v3.0.0
         with:
           sonatypeSnapshots: true
-          servers: |
-            [{
-              "id": "confluence",
-              "username": "${{ env.confluence_username }}",
-              "password": "${{ env.confluence_password }}"
-            }]
+#          servers: |
+#            [{
+#              "id": "confluence",
+#              "username": "${{ secrets.confluence_username }}",
+#              "password": "${{ secrets.confluence_password }}"
+ #           }]
       - name: Build and test with Java ${{ matrix.java_version }}
         run: mvn --batch-mode --update-snapshots -P IT install
         env:
-          CONFLUENCE_USERNAME: ${{ env.CONFLUENCE_USERNAME }}
+          CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
+          CONFLUENCE_PASSWORD: ${{ secrets.CONFLUENCE_PASSWORD }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -105,11 +106,14 @@ jobs:
               "password": "${{ secrets.OSSRH_PASSWORD }}"
             },{
               "id": "confluence",
-              "username": "${{ env.CONFLUENCE_USERNAME }}",
-              "password": "${{ env.CONFLUENCE_PASSWORD }}"
+              "username": "username",
+              "password": "password"
             }]
       - name: publish-snapshots
-        run: mvn deploy --batch-mode -DskipTests -Dconfluence.convertOnly=false
+        run: | 
+          if [[ '${{ secrets.CONFLUENCE_USERNAME }}' != '' &&  ${{ secrets.CONFLUENCE_PASSWORD }} != '']]
+            mvn deploy --batch-mode -DskipTests -Dconfluence.convertOnly=false -Dconfluence.username=${{secrets.CONFLUENCE_USERNAME}} -Dconfluence.password=${{secrets.CONFLUENCE_PASSOWRD}}
+          fi
 
       - name: Execute Sonarqube analysis
         run: |
