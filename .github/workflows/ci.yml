@@ -111,7 +111,7 @@ jobs:
             }]
       - name: publish-snapshots
         run: | 
-          if [[ '${{ secrets.CONFLUENCE_USERNAME }}' != '' &&  ${{ secrets.CONFLUENCE_PASSWORD }} != '']]
+          if [[ '${{ secrets.CONFLUENCE_USERNAME }}' != '' &&  '${{ secrets.CONFLUENCE_PASSWORD }}' != '']]; then
             mvn deploy --batch-mode -DskipTests -Dconfluence.convertOnly=false -Dconfluence.username=${{secrets.CONFLUENCE_USERNAME}} -Dconfluence.password=${{secrets.CONFLUENCE_PASSOWRD}}
           fi
 
