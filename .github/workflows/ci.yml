@@ -75,9 +75,9 @@ jobs:
           sonatypeSnapshots: true
       - name: Build and test with Java ${{ matrix.java_version }}
         run: mvn --batch-mode --update-snapshots -P IT install
-        env:
-          CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
-          CONFLUENCE_PASSWORD: ${{ secrets.CONFLUENCE_PASSWORD }}
+#        env:
+#          CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
+#          CONFLUENCE_PASSWORD: ${{ secrets.CONFLUENCE_PASSWORD }}
   deploy:
     runs-on: ubuntu-latest
     needs: build-and-test
@@ -100,9 +100,9 @@ jobs:
             }]
       - name: publish-snapshots
         run: mvn deploy --batch-mode -DskipTests -Dconfluence.convertOnly=false
-        env:
-          CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
-          CONFLUENCE_PASSWORD: ${{ secrets.CONFLUENCE_PASSWORD }}
+#        env:
+#          CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
+#          CONFLUENCE_PASSWORD: ${{ secrets.CONFLUENCE_PASSWORD }}
       - name: Execute Sonarqube analysis
         run: |
           if [[ ${{ github.actor != 'dependabot[bot]' }} = "true" && '${{inputs.sonar_project_key }}' != '' ]]; then
