@@ -14,6 +14,11 @@ on:
         type: string
         required: false
         default: '[11, 25]'
+      useGraphviz:
+        description: Use Graphviz
+        type: boolean
+        required: false
+        default: false
       publish_snapshots:
         description: Whether to attempt publishing snapshots. When false, the workflow will only run build.
         type: boolean
@@ -73,6 +78,8 @@ jobs:
       - uses: s4u/maven-settings-action@v3.0.0
         with:
           sonatypeSnapshots: true
+      - if: ${{ inputs.useGraphviz != 'true' }}
+        uses: ts-graphviz/setup-graphviz@v1
       - name: Build and test with Java ${{ matrix.java_version }}
         run: mvn --batch-mode --update-snapshots -P IT install
         env:
