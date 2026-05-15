@@ -90,11 +90,18 @@ jobs:
           sha: ${{ github.sha }}
       - name: Upload SARIF to SonarCloud
         run: |
-          if [[ "${{ github.actor != 'dependabot[bot]' }}" = "true" && '${{ inputs.sonar_project_key }}' != '' && ${{ inputs.publish_sarif }} ]];
+          if [[ "${{ github.actor != 'dependabot[bot]' }}" == "true" && '${{ inputs.sonar_project_key }}' != '' && ${{ inputs.publish_sarif }} ]];
               mvn --batch-mode sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.projectKey=${{ inputs.sonar_project_key }} -Dsonar.organization=${{inputs.sonar_organization}} -Dsonar.sarifReportPaths=target/jqassistant/report/sarif/jqassistant-sarif-report.json
           fi
         env:
           SONAR_TOKEN: ${{ secrets.sonar_token }}
+#      - name: Save SARIF as Artifact
+#        if: ${{ inputs.publish_sarif && matrix.java_version == 25 }}
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: jqassistant-sarif-report
+#          path: target/jqassistant/report/sarif/jqassistant-sarif-report.json
+#          retention-days: 1
 
   deploy:
     runs-on: ubuntu-latest
@@ -128,6 +135,14 @@ jobs:
           fi
         env:
           SONAR_TOKEN: ${{ secrets.sonar_token }}
+#      - name: Download SARIF Report Artifact
+#      - name: Upload SARIF to SonarCloud
+#        run: |
+#          if [[ "${{ github.actor != 'dependabot[bot]' }}" = "true" && '${{ inputs.sonar_project_key }}' != '' && ${{ inputs.publish_sarif }} ]];
+#              mvn --batch-mode sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.projectKey=${{ inputs.sonar_project_key }} -Dsonar.organization=${{inputs.sonar_organization}} -Dsonar.sarifReportPaths=target/jqassistant/report/sarif/jqassistant-sarif-report.json
+#          fi
+#        env:
+#          SONAR_TOKEN: ${{ secrets.sonar_token }}
 
       - name: Deploy GitHub Pages to snapshot
         if: ${{ inputs.pages != '' }}
