@@ -123,7 +123,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.sonar_token }}
       - name: Upload SARIF to SonarCloud
         run: |
-          if [[ "${{ github.actor != 'dependabot[bot]' }}" == "true" && '${{ inputs.sonar_project_key }}' != '' && "${{ inputs.publish_sarif }}" == "true"]];
+          if [[ "${{ github.actor != 'dependabot[bot]' }}" == "true" && '${{ inputs.sonar_project_key }}' != '' && "${{ inputs.publish_sarif }}" == "true" ]];
               mvn --batch-mode sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.projectKey=${{ inputs.sonar_project_key }} -Dsonar.organization=${{inputs.sonar_organization}} -Dsonar.sarifReportPaths=target/jqassistant/report/sarif/jqassistant-sarif-report.json
           fi
         env:
