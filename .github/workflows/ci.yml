@@ -48,6 +48,8 @@ on:
         required: false
       sonar_token:
         required: true
+      SONAR_TOKEN:
+        required: false
       confluence_username:
         required: false
       confluence_password:
