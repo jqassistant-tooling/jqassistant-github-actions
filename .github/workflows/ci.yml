@@ -46,9 +46,9 @@ on:
         required: false
       ossrh_signing_password:
         required: false
-      sonar_token:
-        required: true
       SONAR_TOKEN:
+        required: false
+      SONARCLOUD_TOKEN:
         required: false
       confluence_username:
         required: false
@@ -129,7 +129,7 @@ jobs:
               mvn --batch-mode sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.projectKey=${{ inputs.sonar_project_key }} -Dsonar.organization=${{inputs.sonar_organization}} -Dsonar.sarifReportPaths=target/jqassistant/report/sarif/jqassistant-sarif-report.json
           fi
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
 
       - name: Deploy GitHub Pages to snapshot
         if: ${{ inputs.pages != '' }}
