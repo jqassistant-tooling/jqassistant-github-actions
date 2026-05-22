@@ -38,8 +38,6 @@ on:
         required: false
         default: false
     secrets:
-      github_token:
-        required: false
       ossrh_username:
         required: true
       ossrh_password:
@@ -134,7 +132,7 @@ jobs:
           fi
         env:
           SONAR_TOKEN: ${{ secrets.sonarcloud_token}}
-          GITHUB_TOKEN: ${{ secrets.github_token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy GitHub Pages to snapshot
         if: ${{ inputs.pages != '' }}
