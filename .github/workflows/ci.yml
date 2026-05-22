@@ -130,6 +130,7 @@ jobs:
           fi
         env:
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy GitHub Pages to snapshot
         if: ${{ inputs.pages != '' }}
