@@ -46,10 +46,10 @@ on:
         required: false
       ossrh_signing_password:
         required: false
-      SONAR_TOKEN:
+      sonar_token:
         required: false
-      SONARCLOUD_TOKEN:
-        required: false
+      sonarcloud_token:
+        required: true    #TODO: change to false before merge
       confluence_username:
         required: false
       confluence_password:
