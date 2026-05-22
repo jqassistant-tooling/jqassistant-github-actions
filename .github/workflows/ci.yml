@@ -128,7 +128,7 @@ jobs:
       - name: Upload SARIF to SonarCloud
         run: |
           if [[ "${{ github.actor != 'dependabot[bot]' }}" == "true" && '${{ inputs.sonar_project_key }}' != '' && "${{ inputs.publish_sarif }}" == "true" ]]; then
-              mvn --batch-mode org.sonarsource.scanner.maven:sonar-maven-plugin:5.6.0.6792:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.projectKey=${{ inputs.sonar_project_key }} -Dsonar.organization=${{inputs.sonar_organization}} -Dsonar.sarifReportPaths=target/jqassistant/report/sarif/jqassistant-sarif-report.json
+              mvn --batch-mode org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.projectKey=${{ inputs.sonar_project_key }} -Dsonar.organization=${{inputs.sonar_organization}} -Dsonar.sarifReportPaths=target/jqassistant/report/sarif/jqassistant-sarif-report.json
           fi
         env:
           SONAR_TOKEN: ${{ secrets.sonarcloud_token}}
