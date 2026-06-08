@@ -49,7 +49,7 @@ on:
       sonar_token:
         required: false
       sonarcloud_token:
-        required: true    #TODO: change to false before merge
+        required: false
       confluence_username:
         required: false
       confluence_password:
@@ -67,8 +67,6 @@ jobs:
     strategy:
       matrix:
         java_version: ${{ fromJson(inputs.java_test_versions) }}
-    permissions:
-      security-events: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v4
