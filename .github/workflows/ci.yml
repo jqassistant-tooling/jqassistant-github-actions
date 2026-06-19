@@ -47,7 +47,7 @@ on:
       ossrh_signing_password:
         required: false
       sonar_token:
-        description: Token to deploy jQA-Results to SonarServer
+        description: Token to deploy jQA-Results to SonarQube
         required: false
       sonarcloud_token:
         description: Token to deploy jQA-Results to SonarCloud
@@ -113,7 +113,7 @@ jobs:
               "username": "${{ secrets.OSSRH_USERNAME }}",
               "password": "${{ secrets.OSSRH_PASSWORD }}"
             }]
-      - name: publish-snapshots
+      - name: Deploy snapshot and publish to Confluence
         run: mvn deploy --batch-mode -DskipTests -Dconfluence.convertOnly=false
         env:
           CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
