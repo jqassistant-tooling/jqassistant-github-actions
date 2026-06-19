@@ -19,11 +19,6 @@ on:
         type: boolean
         required: false
         default: false
-      publish_snapshots:
-        description: Whether to attempt publishing snapshots. When false, the workflow will only run build.
-        type: boolean
-        default: true
-        required: false
       pages:
         description: Path expression for GitHub pages to upload.
         type: string
