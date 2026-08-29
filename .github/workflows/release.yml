@@ -9,10 +9,11 @@ on:
         type: string
         required: false
         default: 17
-      branch:
-        description: "The branch to checkout when cutting the release."
-        type: string
-        required: true
+      use_graphviz:
+        description: Use Graphviz
+        type: boolean
+        required: false
+        default: false
       releaseVersion:
         description: "Default version to use when preparing a release."
         type: string
@@ -21,6 +22,26 @@ on:
         description: "Default version to use for new local working copy."
         type: string
         required: true
+      dryRun:
+        description: "Perform a dry run"
+        required: true
+        default: 'false'
+        type: string
+      assets:
+        description: "Path expression for Assets to upload."
+        type: string
+        required: false
+        default: ""
+      pages:
+        description: "Path expression for Pages to upload."
+        type: string
+        required: false
+        default: ""
+      deployCurrentDoc:
+        description: "Deploy the current documentation"
+        type: string
+        required: false
+        default: 'false'
     secrets:
       ossrh_username:
         required: true
@@ -33,23 +54,32 @@ on:
       sonar_token:
         required: true
 
+permissions:
+  contents: write
+
 jobs:
   release:
     name: Release on Sonatype OSS
-    if: github.repository_owner == 'jqassistant-plugin'
+    if: contains(fromJSON('["buschmais", "jqassistant-plugin", "jqassistant-tooling", "jQAssistant"]'), github.repository_owner)
     runs-on: ubuntu-latest
 
     steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+
       - uses: actions/checkout@v3
         with:
-          ref: ${{ inputs.branch }}
+          ref: ${{ steps.extract_branch.outputs.branch }}
 
       - name: Configure Git User
         run: |
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
 
-      - uses: ts-graphviz/setup-graphviz@v1
+      - if: ${{ inputs.use_graphviz != 'true' }}
+        uses: ts-graphviz/setup-graphviz@v1
 
       - uses: actions/setup-java@v4
         with:
@@ -63,9 +93,41 @@ jobs:
           gpg-passphrase: OSSRH_SIGNING_PASSWORD
 
       - name: Prepare and perform release
-        run: mvn release:prepare release:perform -ntp --batch-mode -DreleaseVersion=${{ inputs.releaseVersion }} -DdevelopmentVersion=${{ inputs.developmentVersion }}
+        run: mvn release:prepare release:perform -ntp --batch-mode -DreleaseVersion=${{ inputs.releaseVersion }} -DdevelopmentVersion=${{ inputs.developmentVersion }} -DdryRun=${{ inputs.dryRun }}
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           OSSRH_SIGNING_PASSWORD: ${{ secrets.OSSRH_SIGNING_PASSWORD }}
           SONARCLOUD_LOGIN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Create Release Assets
+        if: ${{ inputs.assets != '' }}
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ inputs.releaseVersion }}
+          draft: true
+          files: ${{ inputs.assets }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_unmatched_files: true
+
+      - name: Verify path for GitHub pages
+        if: ${{ inputs.pages != '' }}
+        run: ls ${{ github.event.inputs.pages }}
+
+      - name: Deploy GitHub Pages
+        if: ${{ inputs.pages != '' }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ github.event.inputs.pages }}
+          destination_dir: ./${{ github.event.inputs.releaseVersion }}
+          keep_files: true
+
+      - name: Deploy GitHub Pages to current
+        if: ${{ inputs.pages != '' && inputs.deployCurrentDoc == 'true' }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ github.event.inputs.pages }}
+          destination_dir: ./current
+          keep_files: true
