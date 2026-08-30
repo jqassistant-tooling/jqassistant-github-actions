@@ -105,7 +105,7 @@ jobs:
     needs: build-and-test
     if: contains(fromJSON('["buschmais", "jqassistant-plugin", "jqassistant-tooling", "jQAssistant"]'), github.repository_owner) && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && github.event_name != 'pull_request'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
       - if: ${{ inputs.use_graphviz != 'true' }}
         uses: ts-graphviz/setup-graphviz@v2
       - uses: actions/setup-java@v4
