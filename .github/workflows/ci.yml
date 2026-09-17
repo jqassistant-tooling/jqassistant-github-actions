@@ -13,7 +13,7 @@ on:
         description: Java versions to use for testing the project
         type: string
         required: false
-        default: '[11, 25]'
+        default: '[11, 26]'
       use_graphviz:
         description: Use Graphviz
         type: boolean
