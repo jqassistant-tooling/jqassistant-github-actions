@@ -69,14 +69,19 @@ permissions:
 
 jobs:
   build-and-test:
-    name: Build with java ${{ matrix.java_version }}
-    runs-on: ubuntu-latest
+    name: Build with java ${{ matrix.java_version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
+        os: [ ubuntu-latest ]
         java_version: ${{ fromJson(inputs.java_test_versions) }}
+        include:
+          - os: windows-latest
+            java_version: ${{ inputs.java_version }}
     steps:
       - uses: actions/checkout@v4
-      - if: ${{ inputs.use_graphviz != 'true' }}
+      - if: ${{ inputs.use_graphviz }}
         uses: ts-graphviz/setup-graphviz@v2
       - uses: actions/setup-java@v4
         with:
@@ -87,12 +92,13 @@ jobs:
         with:
           sonatypeSnapshots: true
       - name: Build and test with Java ${{ matrix.java_version }}
-        run: mvn --batch-mode --update-snapshots -P IT install
+        shell: bash
+        run: mvn --batch-mode --update-snapshots -e -P IT install -Djqassistant.skip
         env:
           CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
           CONFLUENCE_PASSWORD: ${{ secrets.CONFLUENCE_PASSWORD }}
       - name: Upload SARIF-Report
-        if: ${{ inputs.publish_sarif }}
+        if: ${{ inputs.publish_sarif && runner.os == 'Linux' }}
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: ./target/jqassistant/report/sarif/jqassistant-sarif-report.json
@@ -106,7 +112,7 @@ jobs:
     if: contains(fromJSON('["buschmais", "jqassistant-plugin", "jqassistant-tooling", "jQAssistant"]'), github.repository_owner) && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v6
-      - if: ${{ inputs.use_graphviz != 'true' }}
+      - if: ${{ inputs.use_graphviz }}
         uses: ts-graphviz/setup-graphviz@v2
       - uses: actions/setup-java@v4
         with:
