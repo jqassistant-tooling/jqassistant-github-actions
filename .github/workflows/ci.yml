@@ -9,11 +9,16 @@ on:
         type: string
         required: false
         default: 17
-      java_test_versions:
-        description: Java versions to use for testing the project
+      java_min_version:
+        description: Minimum Java version to use for testing the project
         type: string
         required: false
-        default: '[11, 26]'
+        default: '11'
+      java_max_version:
+        description: Maximum Java version to use for testing the project
+        type: string
+        required: false
+        default: '26'
       use_graphviz:
         description: Use Graphviz
         type: boolean
@@ -75,7 +80,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
-        java_version: ${{ fromJson(inputs.java_test_versions) }}
+        java_version: [ '${{ inputs.java_min_version }}', '${{ inputs.java_max_version }}' ]
         include:
           - os: windows-latest
             java_version: ${{ inputs.java_version }}
@@ -93,12 +98,12 @@ jobs:
           sonatypeSnapshots: true
       - name: Build and test with Java ${{ matrix.java_version }}
         shell: bash
-        run: mvn --batch-mode --update-snapshots -e -P IT install -Djqassistant.skip
+        run: mvn --batch-mode --update-snapshots -PIT verify
         env:
           CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
           CONFLUENCE_PASSWORD: ${{ secrets.CONFLUENCE_PASSWORD }}
       - name: Upload SARIF-Report
-        if: ${{ inputs.publish_sarif && runner.os == 'Linux' }}
+        if: ${{ inputs.publish_sarif && runner.os == 'Linux' && matrix.java_version == inputs.java_max_version}}
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: ./target/jqassistant/report/sarif/jqassistant-sarif-report.json
